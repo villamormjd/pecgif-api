@@ -26,11 +26,13 @@ class UserProfileSerializers(serializers.ModelSerializer):
         fields = "__all__"
 
     def to_representation(self, instance):
+        response = super().to_representation(instance)
         user = User.objects.get(id=instance.user.id)
+        if user.is_superuser:
+            return response
         user_shares = UserShare.objects.get(user=user)
         total_investment = UserAttribute.objects.filter(name="total_investment", user=user).last()
         original_investment = UserAttribute.objects.get(name="original_investment", user=user)
-        response = super().to_representation(instance)
         response["id"] = instance.investor_num
         response["email"] = user.email
         response["name"] = f"{user.first_name} {user.last_name}"

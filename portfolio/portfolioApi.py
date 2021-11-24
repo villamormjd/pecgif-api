@@ -14,9 +14,9 @@ def get_pct_change(original, new):
     original > new - decrease
     original < new - increase
     '''
-    if(original > new):
+    if (original > new):
         pct = -((original - new)/original)*100
-    if(original < new):
+    elif (original < new):
         pct = ((new - original)/original)*100
 
     return float("{:.2f}".format(pct))
@@ -48,8 +48,11 @@ class PortfolioListView(APIView):
         previous = portfolios[1]
         current = portfolios[0]
         pct_nlv = get_pct_change(previous.nlv, current.nlv)
+        print("NLV",pct_nlv)
         pct_buying_power = get_pct_change(previous.buying_power, current.buying_power)
+        print("PWr", pct_buying_power)
         pct_total_positions = get_pct_change(previous.total_positions, current.total_positions)
+        print("POS", pct_total_positions)
         return Response({"error": False, "message": "Portfolio retrieved.",
                          "data": serializers.data[0],
                          "nlv_pct": pct_nlv,

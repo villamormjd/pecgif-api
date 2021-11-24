@@ -40,15 +40,24 @@ class LoginView(APIView):
         if not user.check_password(password):
             return Response({"error": True,
                              "message": "Password is incorrect"})
-        up = UserProfile.objects.get(user=user)
-        if not up:
-            return Response({"error": True,
-                             "message": "We cannot find this account"})
-        serializer = UserSerializers(user, context={"request": request})
 
-        return Response({"error": False,
-                         "message": "Login Successful",
-                         "data": serializer.data})
+        print(user.username)
+        if user.is_superuser:
+            serializer = UserSerializers(user, context={"request": request})
+
+            return Response({"error": False,
+                             "message": "Login Successful",
+                             "data": serializer.data})
+        else:
+            up = UserProfile.objects.get(user=user)
+            if not up:
+                return Response({"error": True,
+                                 "message": "We cannot find this account"})
+            serializer = UserSerializers(user, context={"request": request})
+
+            return Response({"error": False,
+                             "message": "Login Successful",
+                             "data": serializer.data})
 
 
 class RegisterView(APIView):
