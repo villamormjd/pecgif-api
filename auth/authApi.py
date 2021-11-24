@@ -173,7 +173,6 @@ class VerifyActivateCode(APIView):
 
         user = up.user
         user.is_active = True
-        user.username = request.data["username"]
         user.set_password(request.data["password"])
         up.has_activated = True
         up.save()
