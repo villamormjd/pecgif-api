@@ -22,7 +22,7 @@ class UserProfile(AuditModel):
     control_num = models.CharField(max_length=15, blank=True, unique=True)
     cell_phone_num = models.CharField(max_length=15, blank=True)
     has_activated = models.BooleanField(default=False)
-    activation_code = models.CharField(max_length=5, blank=True)
+    activation_code = models.CharField(max_length=10, blank=True)
     user_type = models.ForeignKey(UserType, related_name="user_type", on_delete=models.CASCADE,
                                   default=None, null=True)
 
