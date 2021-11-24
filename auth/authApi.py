@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from api.serializers import *
 from api.models import *
 from utils.utils import mask_email, generate_code
-from utils.services import email_generated_code
+from utils.services import email_generated_code, email_activation
 import time
 
 
@@ -153,11 +153,6 @@ class ActivateAccount(APIView):
             if up.has_activated:
                 return Response({"error": True, "message": "Account with that investor number already activated."})
 
-            query_set = User.objects.filter(username=request.data["username"])
-            if query_set.exists():
-                return Response({"error": True, "message": "Account with that username already activated."})
-
-
             user = up.user
             email = mask_email(user.email)
             up.activation_code = generate_code()
@@ -183,6 +178,7 @@ class VerifyActivateCode(APIView):
         up.has_activated = True
         up.save()
         user.save()
+        email_activation(user)
         return Response({"error": False, "message": "Activation Success."})
 
 # {
