@@ -5,7 +5,7 @@ from api.serializers import *
 from api.models import *
 from utils.utils import mask_email, generate_code
 from utils.services import email_generated_code, email_activation
-import time
+import time, datetime
 
 
 def generate_username():
@@ -71,6 +71,7 @@ class RegisterView(APIView):
                     last_name=request.data["last_name"],
                     email=request.data["email"],
                     username=generate_username(),
+                    date_joined=datetime.datetime.strptime(request.data["date_joined"], '%m/%d/%y'),
                     is_active=False)
                 print("USER", user)
                 if user:
@@ -79,6 +80,9 @@ class RegisterView(APIView):
                         investor_num=request.data["investor_num"],
                         control_num=request.data["control_num"],
                         cell_phone_num=request.data["cell_phone_num"],
+                        bank_account_number=request.data["account_num"],
+                        bank_account_name=request.data["bank"],
+                        bank_account_currency=request.data["currency"],
                         user_type=UserType.objects.get(name="Investor")
                     )
 
@@ -127,7 +131,12 @@ class EditUserView(APIView):
                 share.total_share = params.get('total_share')
             if params.get('share_type'):
                 share.share_type = ShareType.objects.get(name=params.get('share_type'))
-
+            if params.get('account_num'):
+                up.bank_account_number = params.get('account_num')
+            if params.get('bank'):
+                up.bank_account_name = params.get('bank')
+            if params.get('currency'):
+                up.bank_account_currency = params.get('currency')
 
             up.save()
             user.save()
@@ -177,8 +186,8 @@ class VerifyActivateCode(APIView):
         up.has_activated = True
         up.save()
         user.save()
-        email_activation(user)
-        return Response({"error": False, "message": "Activation Success."})
+        email_activation(user, up)
+        return Response({"error": False, "message": "Activation Success. You may now login."})
 
 # {
 # "cell_phone_num": "123456789",

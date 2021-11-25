@@ -25,6 +25,9 @@ class UserProfile(AuditModel):
     activation_code = models.CharField(max_length=10, blank=True)
     user_type = models.ForeignKey(UserType, related_name="user_type", on_delete=models.CASCADE,
                                   default=None, null=True)
+    bank_account_number = models.CharField(max_length=15, blank=True)
+    bank_account_name = models.CharField(max_length=15, blank=True)
+    bank_account_currency = models.CharField(max_length=15, blank=True)
 
     def __str__(self):
         return f"{self.user}"

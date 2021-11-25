@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from api.models import *
+import datetime
 
 class UserSerializers(serializers.ModelSerializer):
     class Meta:
@@ -35,6 +36,7 @@ class UserProfileSerializers(serializers.ModelSerializer):
         original_investment = UserAttribute.objects.get(name="original_investment", user=user)
         response["id"] = instance.investor_num
         response["email"] = user.email
+        response["date_joined"] = user.date_joined.strftime("%m/%d/%Y")
         response["name"] = f"{user.first_name} {user.last_name}"
         response["share"] = user_shares.total_share
         response["share_type"] = user_shares.share_type.name
