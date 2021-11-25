@@ -57,7 +57,7 @@ class PortfolioListView(APIView):
         pct_total_positions = get_pct_change(previous.total_positions, current.total_positions)
         print("POS", pct_total_positions)
         return Response({"error": False, "message": "Portfolio retrieved.",
-                         "data": serializers.data[0],
+                         "data": serializers.data[-1],
                          "nlv_pct": pct_nlv,
                          "pwr_pct": pct_buying_power,
                          "pos_pct": pct_total_positions,
