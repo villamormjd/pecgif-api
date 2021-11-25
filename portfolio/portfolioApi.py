@@ -14,6 +14,9 @@ def get_pct_change(original, new):
     original > new - decrease
     original < new - increase
     '''
+    if original == 0:
+        return 0
+
     if (original > new):
         pct = -((original - new)/original)*100
     elif (original < new):
@@ -45,8 +48,8 @@ class PortfolioListView(APIView):
         portfolios = Portfolio.objects.all().order_by('created_on')
         serializers = PortfolioSerializers(portfolios,many=True, context={"request": request})
         print(portfolios[0].buying_power, portfolios[1].buying_power)
-        previous = portfolios[1]
-        current = portfolios[0]
+        previous = portfolios[0]
+        current = portfolios[1]
         pct_nlv = get_pct_change(previous.nlv, current.nlv)
         print("NLV",pct_nlv)
         pct_buying_power = get_pct_change(previous.buying_power, current.buying_power)
