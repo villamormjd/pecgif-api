@@ -42,7 +42,7 @@ class PortfolioListView(APIView):
         :return:
         '''
 
-        portfolios = Portfolio.objects.all().order_by('-created_on')
+        portfolios = Portfolio.objects.all().order_by('created_on')
         serializers = PortfolioSerializers(portfolios,many=True, context={"request": request})
         print(portfolios[0].buying_power, portfolios[1].buying_power)
         previous = portfolios[1]

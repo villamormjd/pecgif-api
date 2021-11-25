@@ -12,7 +12,7 @@ def email_generated_code(code, email):
 
 def email_activation(user):
     send_mail("Account Activation",
-              "Your accoutn has been activated.\n Username: {} \n\n Thank you.".format(user.username),
+              "Your account has been activated.\n Username: {} \n\n Thank you.".format(user.username),
               settings.EMAIL_HOST_USER,
               [user.email],
               fail_silently=False)
