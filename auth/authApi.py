@@ -186,7 +186,7 @@ class VerifyActivateCode(APIView):
         up.save()
         user.save()
         email_activation(user, up)
-        return Response({"error": False, "message": "Activation Success. You may now login."})
+        return Response({"error": False, "message": "Activation Success. Account details has been sent to your email."})
 
 # {
 # "cell_phone_num": "123456789",
