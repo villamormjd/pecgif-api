@@ -13,7 +13,7 @@ def email_generated_code(code, email):
 def email_activation(user, up):
     send_mail("Account Activation Success",
               "Your account has been activated. \n\n "
-              "Username: {} \n Investor Number: {}\n Control Number:{}  Thank you.".format(user.username, up.investor_num,
+              "Username: {} \n Investor Number: {}\n Control Number: {}\n\n  Thank you.".format(user.username, up.investor_num,
                                                                                            up.control_num),
               settings.EMAIL_HOST_USER,
               [user.email],
