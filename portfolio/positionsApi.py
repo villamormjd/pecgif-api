@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.conf import settings
 from django.db.models import Sum
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -22,7 +23,9 @@ def get_positions(positions):
     for p in positions:
         data_symbols += f"{p.symbol}%2C"
     url = f"https://yfapi.net/v6/finance/quote?region=US&lang=en&symbols={data_symbols}"
-    url_response = requests.get(url, headers={"x-api-key": "XwS5ojLx0g7uvGoBumUwO4agLnD4RZ085EQbtj73"})
+    print("YAPI_KEY", settings.YAPI_KEY)
+    url_response = requests.get(url, headers={"x-api-key": settings.YAPI_KEY})
+
     print(url)
     response = url_response.json()["quoteResponse"]["result"]
     for r in response:
