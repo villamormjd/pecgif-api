@@ -71,7 +71,7 @@ class RegisterView(APIView):
                     last_name=request.data["last_name"],
                     email=request.data["email"],
                     username=generate_username(),
-                    date_joined=datetime.datetime.strptime(request.data["date_joined"], '%m/%d/%y'),
+                    date_joined=datetime.datetime.strptime(request.data["date_joined"], '%m/%d/%Y'),
                     is_active=False)
                 print("USER", user)
                 if user:
@@ -100,8 +100,7 @@ class RegisterView(APIView):
                                      "data": serializer.data})
             except Exception as e:
                 return Response({"error": True,
-                                 "message": "Investor failed to create",
-                                 "error": str(e)})
+                                 "message": "Investor failed to create. {}".format(e)})
 
 
 class EditUserView(APIView):
