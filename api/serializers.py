@@ -40,8 +40,8 @@ class UserProfileSerializers(serializers.ModelSerializer):
         response["name"] = f"{user.first_name} {user.last_name}"
         response["share"] = user_shares.total_share
         response["share_type"] = user_shares.share_type.name
-        response["total_investment"] = total_investment.value if total_investment.value else 0.00
-        response["original_investment"] = original_investment.value
+        response["total_investment"] = "${:,.2f}".format(float(total_investment.value)) if total_investment.value else 0.00
+        response["original_investment"] = "${:,.2f}".format(float(original_investment.value))
         return response
 
 
@@ -66,8 +66,9 @@ class TransactionSerializers(serializers.ModelSerializer):
 
         response = super().to_representation(instance)
         response["transaction_type"] = trans_type.name
-        response["original_investment"] = original_investment.value
-        response["total_investment"] = "{:.2f}".format(float(total_investment.value))
+        response["original_investment"] = "${:,.2f}".format(float(original_investment.value))
+        response["total_investment"] = "${:,.2f}".format(float(total_investment.value))
+        response["amount"] = "${:,.2f}".format(float(instance.amount))
         response["date"] = instance.date.strftime("%m/%d/%Y")
         response["name"] = f"{instance.user.first_name} {instance.user.last_name}"
         return response
