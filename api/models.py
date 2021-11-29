@@ -106,3 +106,11 @@ class Positions(AuditModel):
 
     def __str__(self):
         return self.symbol
+
+
+class Notification(AuditModel):
+    user = models.ForeignKey(User, related_name="notification_user", on_delete=models.CASCADE,
+                             default=None, null=True)
+    message = models.TextField(blank=True)
+    is_read = models.BooleanField(default=False)
+

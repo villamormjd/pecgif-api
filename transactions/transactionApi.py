@@ -1,43 +1,66 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from api.models import UserProfile, Transaction, TransactionType, UserAttribute
+from api.models import UserProfile, Transaction, TransactionType, UserAttribute, UserShare
 from api.serializers import TransactionSerializers, TransactionTypeSerializers
 from utils.utils import generate_string
 from django.db.models import Sum
 
+def create_user_attribute(transaction, user):
+    if transaction:
+        original_investment, created = UserAttribute.objects.get_or_create(name="original_investment",
+                                                                           user=transaction.user)
+        total_investment, created = UserAttribute.objects.get_or_create(name="total_investment", user=transaction.user,
+                                                                        user_transaction=transaction)
+        top_ups = Transaction.objects.filter(user=user, type__name="Top-up").aggregate(top_ups=Sum('amount'))[
+                      "top_ups"] or 0.00
+        print("TOOOP", top_ups)
+        withdraws = \
+        Transaction.objects.filter(user=user, type__name="Withdrawal").aggregate(withdraws=Sum('amount'))[
+            "withdraws"] or 0.00
+        total = float(original_investment.value) + (float(top_ups) - float(withdraws))
+        total_investment.value = "{:.2f}".format(total)
+        total_investment.save()
 
 class UserTransactionsView(APIView):
 
-    def post(self, request, investor_number=None):
+    def post(self, request):
         '''
-        :param request: investor, date, amount, type - 12, 13
+        :param request: investor, date, amount, type
         :return:
         '''
-        print(request.data)
+        transaction_type = TransactionType.objects.get(pk=request.data["type"])
         amount = request.data["amount"]
-        transaction_type = request.data["type"]
-
-        up = UserProfile.objects.get(investor_num=investor_number)
-        transaction = Transaction.objects.create(
-            user=up.user,
-            transaction_number=generate_string(),
-            amount=float(amount),
-            type=TransactionType.objects.get(pk=transaction_type)
-        )
-
-        if transaction:
-            original_investment, created = UserAttribute.objects.get_or_create(name="original_investment", user=transaction.user)
-            total_investment, created = UserAttribute.objects.get_or_create(name="total_investment", user=transaction.user,
-                                                                            user_transaction=transaction)
-            top_ups = Transaction.objects.filter(user=up.user, type=12).aggregate(top_ups=Sum('amount'))["top_ups"] or 0.00
-            withdraws = Transaction.objects.filter(user=up.user, type=13).aggregate(withdraws=Sum('amount'))["withdraws"] or 0.00
-            total = float(original_investment.value) + (float(top_ups)-float(withdraws))
-            total_investment.value = "{:.2f}".format(total)
-            total_investment.save()
-        serializers = TransactionSerializers(transaction, context={"request": request})
-        return Response({"error": False, "message": "Transaction have been saved.",
-                         "data": serializers.data}, status=status.HTTP_200_OK)
+        print("TYPE", transaction_type.name.upper())
+        print("TYPE", type(amount))
+        if transaction_type.name.upper() == "DIVIDENDS":
+           investors = UserProfile.objects.filter(user_type_id=2)
+           users = [i.user for i in investors]
+           for u in users:
+               user_share = UserShare.objects.get(user=u)
+               shares = user_share.total_share
+               dividends = shares * float(amount)
+               transaction = Transaction.objects.create(
+                   user=u,
+                   transaction_number=generate_string(),
+                   amount=dividends,
+                   type=transaction_type
+               )
+               create_user_attribute(transaction, u)
+           return Response({"error": False, "message": "Dividends Transactions saved."})
+        else:
+            investor_number = request.data["investor_num"]
+            up = UserProfile.objects.get(investor_num=investor_number)
+            transaction = Transaction.objects.create(
+                user=up.user,
+                transaction_number=generate_string(),
+                amount=float(amount),
+                type=transaction_type
+                )
+            create_user_attribute(transaction, up.user)
+            serializers = TransactionSerializers(transaction, context={"request": request})
+            return Response({"error": False, "message": "Transaction have been saved.",
+                             "data": serializers.data}, status=status.HTTP_200_OK)
 
     def get(self, request, investor_num=None):
         print("TRANSACTIONS", investor_num)

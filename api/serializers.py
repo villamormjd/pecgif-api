@@ -59,6 +59,7 @@ class TransactionSerializers(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         trans_type = TransactionType.objects.get(pk=instance.type)
+        print(trans_type)
         total_investment = UserAttribute.objects.get(name="total_investment", user=instance.user, user_transaction=instance)
         original_investment = UserAttribute.objects.get(name="original_investment", user=instance.user)
 
@@ -76,3 +77,20 @@ class TransactionTypeSerializers(serializers.ModelSerializer):
     class Meta:
         model= TransactionType
         fields = "__all__"
+
+
+class NotificatioSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Notification
+        fields = "__all__"
+
+    def to_representation(self, instance):
+        response = super().to_representation(instance)
+        up = UserProfile.objects.get(user=instance.user)
+        user = up.user
+        response["investor_num"] = up.investor_num
+        response["name"] = f"{user.first_name} {user.last_name}"
+        response["created_date"] = datetime.datetime.strftime(instance.created_on, "%m/%d/%Y")
+        response["email"] = user.email
+        response["username"] = user.username
+        return response
