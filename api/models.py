@@ -111,6 +111,13 @@ class Positions(AuditModel):
 class Notification(AuditModel):
     user = models.ForeignKey(User, related_name="notification_user", on_delete=models.CASCADE,
                              default=None, null=True)
-    message = models.TextField(blank=True)
+    notification_message = models.TextField(blank=True)
     is_read = models.BooleanField(default=False)
+
+
+class Message(AuditModel):
+    user = models.ForeignKey(User, related_name="message_user", on_delete=models.CASCADE,
+                             default=None, null=True)
+    comment = models.TextField(blank=True)
+
 

@@ -23,5 +23,8 @@ class NotificationView(APIView):
          message = request.data["message"]
          try:
              up = UserProfile.objects.get(investor_num=investor_num)
+             notification = Notification.objects.create(user=up.user, notification_message=message)
+             print("MESSAGE", message)
+             return Response({"error": False, "message": "Your inquiry has been sent.".format(message)})
          except Exception as e:
              return Response({"error": True, "message": "Something went wrong. {}".format(e)})

@@ -29,16 +29,17 @@ class UserTransactionsView(APIView):
         :param request: investor, date, amount, type
         :return:
         '''
+        print(request.data)
         transaction_type = TransactionType.objects.get(pk=request.data["type"])
         amount = request.data["amount"]
-        print("TYPE", transaction_type.name.upper())
-        print("TYPE", type(amount))
         if transaction_type.name.upper() == "DIVIDENDS":
            investors = UserProfile.objects.filter(user_type_id=2)
            users = [i.user for i in investors]
            for u in users:
-               user_share = UserShare.objects.get(user=u)
-               shares = user_share.total_share
+               user_share = UserShare.objects.filter(user=u)
+               shares = user_share.aggregate(total_shares=Sum("total_share"))["total_shares"]
+               print("U", u)
+               print("TOTAL SHARES", shares)
                dividends = shares * float(amount)
                transaction = Transaction.objects.create(
                    user=u,
@@ -49,7 +50,7 @@ class UserTransactionsView(APIView):
                create_user_attribute(transaction, u)
            return Response({"error": False, "message": "Dividends Transactions saved."})
         else:
-            investor_number = request.data["investor_num"]
+            investor_number = request.data["investor"]
             up = UserProfile.objects.get(investor_num=investor_number)
             transaction = Transaction.objects.create(
                 user=up.user,
