@@ -106,3 +106,9 @@ class NotificatioSerializers(serializers.ModelSerializer):
         response["email"] = user.email
         response["username"] = user.username
         return response
+
+
+class faqsSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = FrequentlyAskedQuestion
+        fields = "__all__"

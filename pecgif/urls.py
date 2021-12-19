@@ -21,6 +21,7 @@ from portfolio.portfolioApi import *
 from portfolio.positionsApi import PositionListVew
 from transactions.transactionApi import UserTransactionsView, TransactionsListView, TransactionsTypeListView
 from notifications.notificationApi import NotificationView
+from freQuestions.questionsApi import FrequentlyAskedQuestionsView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -40,5 +41,6 @@ urlpatterns = [
     path('api/v1/user/activate/', ActivateAccount.as_view(), name="activate-account"),
     path('api/v1/user/verify/', VerifyActivateCode.as_view(), name="verify-account"),
     path('api/v1/notifications/', NotificationView.as_view(), name="notifications"),
+    path('api/v1/FAQs/', FrequentlyAskedQuestionsView.as_view(), name="faqs"),
 
 ]

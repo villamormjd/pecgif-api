@@ -32,6 +32,7 @@ def get_positions(positions):
         r["id"] = symbols[r["symbol"]]["id"]
         r["pos"] = symbols[r["symbol"]]["pos"]
         r["share_pct"] = symbols[r["symbol"]]["share_pct"]
+        r["total_value"] = r["pos"] * r["regularMarketPrice"]
     # print("ITEMS", symbols)
     # for s in symbols:
     # response["pos"] = s["pos"]

@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework import status
 from api.serializers import *
 from api.models import *
 from utils.utils import mask_email, generate_code
@@ -31,15 +32,16 @@ class LoginView(APIView):
         user = User.objects.filter(username=username).first()
         if user is None:
             return Response({"error": True,
-                             "message": "We don't recognize user with that username."})
+                             "message": "We don't recognize user with that username."},
+                            status=status.HTTP_400_BAD_REQUEST)
 
         if not user.is_active:
             return Response({"error": True,
-                             "message": "This user is not active."})
+                             "message": "This user is not active."}, status=status.HTTP_400_BAD_REQUEST)
 
         if not user.check_password(password):
             return Response({"error": True,
-                             "message": "Password is incorrect"})
+                             "message": "Password is incorrect"}, status=status.HTTP_400_BAD_REQUEST)
 
         print(user.username)
         if user.is_superuser:
@@ -47,7 +49,7 @@ class LoginView(APIView):
 
             return Response({"error": False,
                              "message": "Login Successful",
-                             "data": serializer.data})
+                             "data": serializer.data}, status=status.HTTP_200_OK)
         else:
             up = UserProfile.objects.get(user=user)
             if not up:
@@ -57,7 +59,7 @@ class LoginView(APIView):
 
             return Response({"error": False,
                              "message": "Login Successful",
-                             "data": serializer.data})
+                             "data": serializer.data}, status=status.HTTP_200_OK)
 
 
 class RegisterView(APIView):

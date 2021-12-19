@@ -14,6 +14,7 @@ def get_pct_change(original, new):
     original > new - decrease
     original < new - increase
     '''
+    print("OR",original)
     if original == 0:
         return 0
 
@@ -31,7 +32,6 @@ def get_nlv_analytics(portfolios):
         print(date)
         anlytics.append({"date": date,
                          "nlv": p.nlv,
-                         "pwr": p.buying_power,
                          "pos": p.total_positions})
 
     return anlytics
@@ -45,19 +45,20 @@ class PortfolioListView(APIView):
         :return:
         '''
 
-        portfolios = Portfolio.objects.all().order_by('created_on')
+        portfolios = Portfolio.objects.all().order_by('-created_on')
         serializers = PortfolioSerializers(portfolios,many=True, context={"request": request})
         print(portfolios[0].buying_power, portfolios[1].buying_power)
         previous = portfolios[0]
         current = portfolios[1]
+        print(previous, current)
         pct_nlv = get_pct_change(previous.nlv, current.nlv)
-        print("NLV",pct_nlv)
+        #print("NLV",pct_nlv)
         pct_buying_power = get_pct_change(previous.buying_power, current.buying_power)
-        print("PWr", pct_buying_power)
+        #print("PWr", pct_buying_power)
         pct_total_positions = get_pct_change(previous.total_positions, current.total_positions)
-        print("POS", pct_total_positions)
+       # print("POS", pct_total_positions)
         return Response({"error": False, "message": "Portfolio retrieved.",
-                         "data": serializers.data[-1],
+                         "data": serializers.data[0],
                          "nlv_pct": pct_nlv,
                          "pwr_pct": pct_buying_power,
                          "pos_pct": pct_total_positions,
