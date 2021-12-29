@@ -19,6 +19,22 @@ def email_activation(user, up):
               [user.email],
               fail_silently=False)
 
+    subject, from_email, to = 'Account Activation Success', settings.EMAIL_HOST_USER, user.email
+    text_content = 'Account Activation Success'
+    html_content = f'<p>Good Day, <strong>{user.first_name} {user.last_name}</strong>!</p><br/>' \
+                   f'<p>Your account has been activated. You may now login using your username and password.</p><br/>' \
+                   f'<p>Here are you account details.</p><br/>' \
+                   f'<p> <strong> Username </strong>: {user.username}  </p>' \
+                   f'<p> <strong> Investor Number </strong>: {up.investor_num} </p>' \
+                   f'<p> <strong> Control Number </strong>: {up.control_num} </p><br/>' \
+                   f'If you have questions, please do not hesitate to contact us at clientcare@pecapital.org</p><br/>' \
+                   f'<p>Sincerely, </p>' \
+                   f'<p><strong> P/E Capital Green Innovation Fund </strong></p>'
+    msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+    msg.attach_alternative(html_content, "text/html")
+    msg.send()
+    print("SENT!")
+
 
 def send_email_notifications(users, subject, body):
     emails = [u.email for u in users]
@@ -35,11 +51,6 @@ def send_prelaunch_email(user, up):
               fail_silently=False)
 
 
-body = "Good day, Investors!\n" \
-       "This is to announce that our P/E Capital Investment Green Innovation Fund Application is now live." \
-       "You are going to recieved an email with your account details to activate your account.\n\nThank you,\n" \
-       "P/E Capital Investment Green Innovation Fund"
-
 
 
 def send_email_multi(user, up):
@@ -55,7 +66,7 @@ def send_email_multi(user, up):
                    f'<strong> INVESTOR NUMBER </strong>: <strong style="color: red;"> {up.investor_num} </strong>' \
                    f'<p>Here are the instructions on how to access your account. </p><br/>' \
                    f'<ol> ' \
-                   f'<li> Go to Investor Portal (<a href="https://pecgif-web.herokuapp.com/"> https://pecgif-web.herokuapp.com/ </a>)</li>' \
+                   f'<li> Go to Investor Portal (<a href="http://www.pecgif.org/"> http://www.pecgif.org/ </a>)</li>' \
                    f'<li> Click Activate account <strong style="color: red;"> HERE </strong><br/>. {img_src1}</li>' \
                    f'<li> Provide your  <strong> INVESTOR NUMBER </strong> and desire <strong> PASSWORD </strong><br/>. {img_src2}</li>' \
                    f'<li> Check you registered email, a <strong> VERIFICATION CODE </strong> will be sent from clientcare@pecapital.org.</li>' \
