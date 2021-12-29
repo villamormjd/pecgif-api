@@ -37,11 +37,11 @@ class LoginView(APIView):
 
         if not user.is_active:
             return Response({"error": True,
-                             "message": "This user is not active."}, status=status.HTTP_400_BAD_REQUEST)
+                             "message": "This user is not active."})
 
         if not user.check_password(password):
             return Response({"error": True,
-                             "message": "Password is incorrect"}, status=status.HTTP_400_BAD_REQUEST)
+                             "message": "Password is incorrect"})
 
         print(user.username)
         if user.is_superuser:

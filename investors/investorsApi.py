@@ -9,7 +9,7 @@ class InvestorsView(APIView):
 
     def get(self, request):
         user_type = UserType.objects.get(pk=2)
-        investors = UserProfile.objects.filter(user_type=user_type)
+        investors = UserProfile.objects.filter(user_type=user_type).order_by('investor_num')
         serializer = UserProfileSerializers(investors, many=True, context={"request": request})
 
         return Response({"error": False, "message": "Investors retrieved.",
@@ -19,7 +19,6 @@ class InvestorsView(APIView):
 class InvestorDetailView(APIView):
 
     def get(self, request, investor_num=None):
-        print(investor_num)
         investor = UserProfile.objects.get(investor_num=investor_num)
         serializer = UserProfileSerializers(investor, context={"request": request})
 
