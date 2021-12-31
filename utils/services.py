@@ -22,7 +22,7 @@ def email_activation(user, up):
     subject, from_email, to = 'Account Activation Success', settings.EMAIL_HOST_USER, user.email
     text_content = 'Account Activation Success'
     html_content = f'<p>Good Day, <strong>{user.first_name} {user.last_name}</strong>!</p><br/>' \
-                   f'<p>Your account has been activated. You may now login using your username and password.</p><br/>' \
+                   f'<p>Your account has been activated. You may now login using your username and password.</p>' \
                    f'<p>Here are you account details.</p><br/>' \
                    f'<p> <strong> Username </strong>: {user.username}  </p>' \
                    f'<p> <strong> Investor Number </strong>: {up.investor_num} </p>' \
@@ -54,14 +54,14 @@ def send_prelaunch_email(user, up):
 
 
 def send_email_multi(user, up):
-    img_src1 = "<img src='https://lh3.googleusercontent.com/VqWWkZn54RGQvZgbbvgcfXLY36cBB0tneAd1v3aTT01QOgtKVQMpo7cTZblY8Lvgg5wN02Ldv0nozR_uBQCrgY2XmR9GcaWY7KQYlhIljReCYW3Ux7xjjLaBQI1kRzNmjUi40mwHwjA2VAbzQb1eiX8GD30k04UunnqrybyQaFMFDCuQJJCtAH6osDFY5cYraHvkWstcES4LI_unCm_eGe0lB4eqxmxr28Xfidd8VkLh7Y-vRD8kZCFEkKNqETIdvGYT_qDsaUXoio0M_0qQOXSVcz2HU6Brq_Cw32ale4H5gecHD7uSAxxNIMQj86DLIqF56pHQ0cpiLSmQEeTKs8qa1zfvGfyQu0eTuSmsOVetYNETPTHzf0VurBkwpuhAPNtB-0gkqdfpZ5WYVzmY_qfzIcWKVT4s-oPwVjUef7PBo5ZJN5NMyA981qpbzsm_uKJaU12sV8zK0hpGEmPdWK55GoUOxD5-oKk8ekqm5E8BTYxO6vORhBGDBGS6M56MyKyaFOi8xyYzjyTHZAuKWi8UROeGnlTa0kzD2AEqxH1AQZLD8gV6T0jrxwBlTP9VU4DtM-UyjvwrmnLH27RNR4eP8t2NCKOnMIQL2simgFBe35QIeWJWFOr1ng-O5FI5TixLKI_qxCq4N3z3OVcqp1IWrIsAZWIggMqRTKq32YhisFvdjUeJWNaM106SKUmFAoKccpAhMl6VBdGucRZhKdLx=w535-h943-no?authuser=0'>"
+    img_src1 = "<img src='https://lh3.googleusercontent.com/EvLHeQnRS-2CBg7ppuAZtLN4pjGHoqc-1WDqlQyZ_Slh_pCLRlUw8SD03JdDLYNxXYTw2o3Z1SVJoklnN2eUyQVVawsuPYRjMmgt7Dd3u9sRoP9Eky0WiflHCemLDDW2RlQgK8BhwnfJnIFfYAwENjaEuHcirGoyYyYiXd9NXnaIhx5-3L39azC5zlzwbNWeRkCJtNJpdmq53Z1lWp98BWLOYWxD4TFdSWPjsGMPc3XrNSf6pfbvRKpfJUaTNJlky2506-bBF-o2c768CYY3PMk5Ql41OMCyQ4YnnQwM_k0fLdUVsP9Bxg3pOviM8WmzOmiWW5C5APlJ-lt85qAYpLbXiBFDyLAzlZ_93pUnf_gA085OeesoZ5WC2lC857BluP8XIZoNqwaMAIMIAZzrSJQg3OrRgq9L7BbIWrXEjFJ9jsYoJy2ltXhIxRtYUTg9BfUBZNbKCUec06gr_jVrKLfhrwEkOxZMseYRpariG8LzhlKoG-TQ0FNNfFsO6kQCXZj7B5rKOM1n14rg1SVQQBul1VQeK4V2kKrPCzj7SE5qVXfR0LiG8Dd7uf90764XC4V086xR5siXjtH-LFDgWJ-_gkYhcGUw4-wTJyZ8Fe9ElrCMAc3_yQWsM_ckhUqMeugqdG1kr5AVekV6FyWjZY3n62-TJrzQ88uOIEvAt0w2qzTO-5u-uDfe9-tQHYfHdE1ABelRfiEjcgFthLuOgiY2=w535-h943-no?authuser=0'>"
 
-    img_src2 = "<img src='https://lh3.googleusercontent.com/SBw4cPMVx7Wsa0-yfbJPSIKGkAdZRYkSCXuyTKWBV35gIzlbIqTdKi9wNsjbgF0z7wt_RUBP9jge1wWmoIq0LbdnrWRLGxTMu0S6cWLhYR6fYXGFKFtnI0wNY_4w9UBV0I0c-fKwyq_vGkEwLoO-vARCddbCNdqUZr_sz5V0LfgOC2eMnGxlRoUET1F_TCIWnm7eb4ePGUrNDsGZRymfHh2X0sawy57a8tGDLynuygzvhJ1gJgWR0y8PMO-jm-f2vTpBObw3O-7hhws5xPdMDwu2lL768WnvFbgA99X30lv4TSPuAuPaf0aBIqEqoZODvNbhk7KzaHqrCMZcIbwREyItaYyvHEtGXpMn_nrGISogpBP-ZxjLj5PVynB0YH9SYbnmHeIZVzMlj1ulx1MKx4s1Niy58oZvIoITjO6Y9EjFpRwUVR3lfm0UorgYDUyZMke4T9IF2Yo6xLU9Gbl5QVSTMS7SPgwzqi0WJ5SCLbUwgi8EnbAG6KSza-OvBsMh8DiKEdvASEnASboBGUAndVSeJjvyCoop1ncB0YogJCMrl9SSe4CXz8AraGZeJOa4fJsQ-PWGidy6c0rHRbRia1iKhcPOnTYDpmmcX6QUqFvVtZAFnwUdSD_QCz_7hEStRmPE4mrkBeUgbU_e06rv4x3cqOd1V2I4I4yRheAvckM4H4aaLQd3xni18NoO44kQjmytj3odxMiQUAJnuoy4WMh6=w538-h943-no?authuser=0'>"
+    img_src2 = "<img src='https://lh3.googleusercontent.com/v-QCf3IyQRq5-Odsh9tL8areJYft8186BW-WRbkD1MLQ-UcNTx-7QBtS7m04oIIs4oUzZLRqkLhY8Y8FBe5Ayn2bCthqjFQOfIY7MBtMzvEZU-wP0nEu9B0mIiSUu220uqkeqdTre0N8eHdgKXstqUTgQdaIOZd_1XuxyTxAAMShO-Pagx6rLgpVWCOfhEXqdMXbBoHP2wKm18TZI6qDpStNswycxHnokhS9MxNzKtf4J4UVHguJgl-nNBv7q2LHtJz9mUTcnEuqEo_2XOPCmoZfuCbzMtDVFBGSYAgavBDF5cCNm2l1tkjmm6YRQogdq5fBv2Sle7genxPVNrT93lrFgF7zTxB1CwscYGRnBo0ftncL9oLwjWhg1Y8Gs_BeeZClfZssJosSa5QcHuuXy681FrXXvaxusu79HoQM1SMtJ7Fwv4lojckNxHRskKUC4myVOIqA_QvSaY-EgcgmVgixMeDUDzl0OyirQNzBxznkJQBxpOVa6CbU1wyidwYxYPin9zc0BJMVC7sVxI8v5Aqgbfn1ioJLiwMQQ09TXasoSEQ0Hx07W5TaKyjY8wccrJ6aGORYc5qcxKbN1PoV89C_f6VBYAIUBuTwfbCyK2c33IvMIyvMFYD1uIwyhAqcksWVxU9wfju1nwY5n7djguCjomkwQCUq1mOlfDpsKyJ4D7a1AZ5N9FBusAybBwbrIxda1YkJaumsXGUQIynSkCGa=w538-h943-no?authuser=0'>"
 
-    img_src3 = "<img src='https://lh3.googleusercontent.com/T3qCcCaXVQ1r7xVx6korE-jFvAUcx5IV3VNYz1ci3zhOy4CcdbAkt2SsZknc-UvIYcxolLTsD5YAjedPHY74yh1IH2rpkTc9tinCHBIjgqnPHckIgBzrOc9F5G6upHA0ib6jO3vm9YrH9CqfgG2f04bX3Q0iSLpDoSAr1tg-s5jEkS8G9VpwcocV1oao710xqVTs3NyY-Nfzhmbuf6AuqQAO4OawUjB7w_6y5aFiv14oKBd4IIXzOx1m8nkRNczPSrjx_aMweESM9C2fn6F0Eq0zkEZ7j5dbHORdHs4G2KRXn81xi-tqvIVBg0pLPbv4TNCQQNAIGMHDN-UN6JdI1RqFI9Um3tePSJQyIkHl59VfceoYUYEgfh66-VWJOxo_NtChbW7-hOmkuwrjxVZbuB_0KMz_tXqW9tIhVnlGUQutkIezlLxoQI8eNM4K6nQu66I6bb2V09u3Z2LMzazjRzp5PMBrCi0OOBonAkarzrNtArUKQ_3hVOMFjAVbDUeP1U6hOgxS2Ypv8NUW5bvOtXnbVMoT5WsLfV24RK6IpQOXwGqFDHEuCVurnJ1GX5Zu50qnV42PQBfK9iywtHJOt83A0KjJzA_P-_sbc2_Z3U1V7uaHttK67bnW1zeeNrPx_qeDJDzUbo4JjLNIZ3wYkCrO2cp-WnR_iOZW48WL7yZ_qnocxcloRxzvNB1a-CDShVX0T2W4lt7go0HaIFkqCQmB=w543-h943-no?authuser=0'>"
+    img_src3 = "<img src='https://lh3.googleusercontent.com/QUl25VeMCtO8cQYPBrUT3nWGN5cRMWVfkJcrjKTAz2L2t9UzZA4ACeAoDfoTNHS2MlVmTFr-Z5fqVo4emZ7Dr8DmMphVZSfrnmLkYtmQiVwHUxNPWRyI-K7IvZXdnHpnKMqd-ucQ3XLSPkGkxiuwWtXcdnf5SdCM5vQ50CCP3y5vtM3X5XcaXUAS-9N6wt2U0DGcR0Tc_xn4sw27xNdDauFokiH7Hhu32JfSQBDkGSzkTdJw-1Kmh4JeCVxZNHjwB56MC3A_3SvolM4k9e0MwRgNEqWGIEphRPMyTVRgcQ-OXLxJBUVn7Lp1qv8-EHKoReqloz52ESchb7bQMM2991fnWOCz4lBzJZrSnzJnXMAMejT5cj-x-18XS9l71Nupteoefu0SkDKDOeViMkVMl5oCV0BpsVAY1uNKYTkUihQdl5oy2eAYf_dQ0dsbqBSz5U3A-0MtEixA0oeb2AnvsPjltbQX2zXExWK7ZIN6QHP5XptsRD2XEUDyalNtNNfFGVfC8iGa4TpoYt2uLLDT3eBl4BXX-7Qly0_UQGriDyiS2gqKy40csyCkniRDFrWZ8K37CjvyzRnpFwZLHoN7WGdQCZv3z9sgxefYqPfn2G1TJOFMD7TIpkR228YJUJC2BcihZ4dgZ2Ru2t9hmNl-0jUdIjmAUA8DGx30LsN1P0kRtQhAVWKknAvGTsJORuCdGvailuWxo6lUJe639nRXbwtU=w543-h943-no?authuser=0'>"
     subject, from_email, to = 'P/E Capital Green Innovation Fund Account Activation Details', settings.EMAIL_HOST_USER, user.email
     text_content = 'P/E Capital Green Innovation Fund Account Activation Details'
-    html_content = f'<p>Good Day, <strong>{user.first_name} {user.last_name}</strong>!</p><br/>' \
+    html_content = f'<p>Good Day, <strong>{user.first_name} {user.last_name}</strong>!</p>' \
                    f'<p>To activate your account, kindly use your <strong> INVESTOR NUMBER </strong> below. </p>' \
                    f'<strong> INVESTOR NUMBER </strong>: <strong style="color: red;"> {up.investor_num} </strong>' \
                    f'<p>Here are the instructions on how to access your account. </p><br/>' \
@@ -85,10 +85,10 @@ def send_email_multi(user, up):
 def pre_launch_email_multi(bcc_emails):
     subject, from_email, to = 'P/E Capital Green Innovation Fund App Launching', settings.EMAIL_HOST_USER, "info@pecapital.org"
     text_content = 'P/E Capital Green Innovation Fund App Launching'
-    html_content = f'<p>Dear  <strong>Friends and Investors</strong>, </p><br/>' \
-                   f'<p>We wish you a happy and healthy holiday season! </p><br/>' \
-                   f'<p>We are excited to announce that the P/E Capital Investment Green Innovation Fund app is now live. In the last few months, we have been tirelessly working to improve our service and we believe this will help you enjoy your experience even more. </p><br/>' \
-                   f'<p>For security purposes, you will receive a separate email with instructions on how to access your account via the mobile app.</p><br/>' \
+    html_content = f'<p>Dear  <strong>Friends and Investors</strong>, </p>' \
+                   f'<p>We wish you a happy and healthy holiday season! </p>' \
+                   f'<p>We are excited to announce that the P/E Capital Investment Green Innovation Fund app is now live. In the last few months, we have been tirelessly working to improve our service and we believe this will help you enjoy your experience even more. </p>' \
+                   f'<p>For security purposes, you will receive a separate email with instructions on how to access your account via the mobile app.</p>' \
                    f'<p>If you have questions, please do not hesitate to contact us at clientcare@pecapital.org</p><br/>' \
                    f'<p>Sincerely, </p>' \
                    f'<p><strong> P/E Capital Green Innovation Fund </strong></p>'

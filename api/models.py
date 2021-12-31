@@ -47,7 +47,7 @@ class Transaction(AuditModel):
     amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     type = models.ForeignKey(TransactionType, related_name="transaction_type", on_delete=models.CASCADE,
                              default=None, null=True)
-    date = models.DateTimeField(default=datetime.datetime.today(), null=True, blank=True)
+    date = models.DateTimeField(default=None, null=True, blank=True)
     #document_link = models.FileField()
 
     def __str__(self):
