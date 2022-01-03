@@ -42,6 +42,7 @@ class UserProfileSerializers(serializers.ModelSerializer):
         original_investment = UserAttribute.objects.get(name="original_investment", user=user)
         response["id"] = instance.investor_num
         response["is_staff"] = user.is_staff
+        response["is_sctive"] = "Active" if user.is_active else "Not Active"
         response["email"] = user.email
         response["date_joined"] = user.date_joined.strftime("%m/%d/%Y")
         response["name"] = f"{user.first_name} {user.last_name}"

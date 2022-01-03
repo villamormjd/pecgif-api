@@ -56,7 +56,8 @@ class LoginView(APIView):
                 return Response({"error": True,
                                  "message": "We cannot find this account"})
             serializer = UserSerializers(user, context={"request": request})
-
+            user.last_login = datetime.datetime.now()
+            user.save()
             return Response({"error": False,
                              "message": "Login Successful",
                              "data": serializer.data}, status=status.HTTP_200_OK)
