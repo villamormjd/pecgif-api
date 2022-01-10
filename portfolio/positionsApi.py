@@ -53,7 +53,7 @@ class PositionListVew(APIView):
         :param request:
         :return:
         '''
-        positions = Positions.objects.all().order_by('symbol')
+        positions = Positions.objects.filter(is_active=True).order_by('symbol')
         return Response({"error": False,
                          "message": "Positions retrieved.",
                          "data": get_positions(positions)})

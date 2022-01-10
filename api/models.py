@@ -100,6 +100,7 @@ class Positions(AuditModel):
     market_value = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     change_pct = models.DecimalField(max_digits=5, decimal_places=2, default=0)
     share_pct = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+    is_active = models.BooleanField(default=True)
 
     class Meta:
         verbose_name_plural = "Positions"
