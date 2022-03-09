@@ -28,6 +28,7 @@ class UserProfile(AuditModel):
     bank_account_number = models.CharField(max_length=15, blank=True)
     bank_account_name = models.CharField(max_length=15, blank=True)
     bank_account_currency = models.CharField(max_length=15, blank=True)
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return f"{self.user}"
